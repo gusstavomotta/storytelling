@@ -1,62 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: #4A98F7;
-}
-/*para a classe container adicionada no html*/
-.container{
-    display: flex;
-    width: 100%;
-    gap: 10px;
-    padding: 10px;
-    max-width: 1050px;
-}
-section{
-    background: #faf6c6;
-    border-radius: 7px;
-}
-.tools-board{
-    width: 210px;
-    padding: 15px 22px 0;
-}
-/*para a classe tools adicionada no html*/
-.tools-board .row{
-    margin-bottom: 20px;
-}
-/*para a classe roe que está criada de ntro da classe option*/
-.row .option{
-   list-style: none;
-    margin: 10px 0 5px;
-}
-.row .option .option{
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    list-style: none;
-}
-.option span,
-.option label{
-    color: #5A6168 ;
-    padding-left: 10px;
-}
-.option #fill-color{
-    height: 14px;
-    width: 14px;
-}
-.options {
-  padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* Reset e full-height */
+* {
   margin: 0;
-  list-style: none;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
-.drawing-board{
-    flex: 1;
+html, body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  display: flex;
+  align-items: stretch;
+  background: #4A98F7;
+}
+
+/* Container */
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Toolbox */
+.tools-board {
+  width: 210px;
+  padding: 15px 22px 0;
+  background: #faf6c6;
+  border-radius: 7px;
+  overflow-y: auto;
+}
+.tools-board .row { margin-bottom: 20px; }
+.tools-board .options { list-style:none; padding:0; margin:0; }
+.tools-board .option {
+  display:flex; align-items:center; margin:10px 0; cursor:pointer;
+}
+.tools-board .option img { width:20px; height:20px; }
+.tools-board .option span,
+.tools-board .option label { color:#5A6168; padding-left:10px; }
+.tools-board #fill-color { width:14px; height:14px; }
+.tools-board #size-slider { width:100%; }
+
+/* Paleta de cores */
+.colors { display:flex; align-items:center; }
+.colors .option {
+  position:relative; width:30px; height:30px; border-radius:4px;
+  margin-right:8px; cursor:pointer;
+}
+.colors .option.selected { outline:2px solid #000; }
+#color-picker {
+  position:absolute; top:0; left:0; width:30px; height:30px;
+  opacity:0; cursor:pointer;
+}
+
+/* Botões */
+.buttons {
+  display:flex; gap:10px; margin-bottom:15px;
+}
+.buttons button {
+  flex:1; padding:8px; border:none; border-radius:4px;
+  background:#4A98F7; color:#fff; cursor:pointer;
+  transition:background .2s;
+}
+.buttons button:hover { background:#3a7ad6; }
+
+/* Canvas */
+.drawing-board {
+  flex:1; position:relative; background:#fff;
+  border-radius:7px; overflow:hidden;
+}
+.drawing-board canvas {
+  position:absolute; top:0; left:0;
+  width:100%; height:100%; display:block;
 }
