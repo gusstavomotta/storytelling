@@ -1,5 +1,5 @@
 const canvas         = document.querySelector("canvas"),
-      toolBtns       = document.querySelectorAll(".tool"),
+      optionBtns       = document.querySelectorAll(".option"),
       fillColor      = document.querySelector("#fill-color"),
       sizeSlider     = document.querySelector("#size-slider"),
       colorBtns      = document.querySelectorAll(".colors .option"),
@@ -10,7 +10,7 @@ const canvas         = document.querySelector("canvas"),
 
 let prevMouseX, prevMouseY,
     isDrawing   = false,
-    selectedTool= "brush",
+    selectedOption= "brush",
     brushWidth  = 5,
     selectedColor="#000",
     snapshot;
@@ -71,7 +71,7 @@ function startDraw(e) {
 function drawing(e) {
   if (!isDrawing) return;
   ctx.putImageData(snapshot, 0, 0);
-  switch (selectedTool) {
+  switch (selectedOption) {
     case "brush":
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.strokeStyle = selectedColor;
@@ -89,11 +89,11 @@ function drawing(e) {
 }
 
 // Seleção de ferramentas
-toolBtns.forEach(btn => {
+optionBtns.forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelector(".options .active")?.classList.remove("active");
     btn.classList.add("active");
-    selectedTool = btn.id;
+    selectedOption = btn.id;
   });
 });
 
