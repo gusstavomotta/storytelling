@@ -1,3 +1,5 @@
+//ver sobre clicar na forma e depois na cor. Não esta dando certo
+
 const canvas         = document.querySelector("canvas"),
       optionBtns       = document.querySelectorAll(".option"),
       fillColor      = document.querySelector("#fill-color"),
