@@ -133,3 +133,6 @@ canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup",   () => isDrawing = false);
 canvas.addEventListener("mouseout",  () => isDrawing = false);
+
+
+//oi
