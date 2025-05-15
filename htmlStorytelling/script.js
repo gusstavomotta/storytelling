@@ -1,4 +1,4 @@
-//ver sobre clicar na forma e depois na cor. Não esta dando certo
+//ver sobre clicar na forma e depois na cor. Não esta dando
 
 const canvas         = document.querySelector("canvas"),
       optionBtns       = document.querySelectorAll(".option"),
