@@ -1,68 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paint App</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <div class="container">
-    <section class="tools-board">
-      <div class="row">
-        <label class="title">Formas</label>
-        <ul class="options">
-          <li class="tool option active" id="rectangle">
-            <img src="../icons/rectangle.svg" alt="">
-            <span>Retângulo</span>
-          </li>
-          <li class="tool option" id="triangle">
-            <img src="../icons/triangle.svg" alt="">
-            <span>Triângulo</span>
-          </li>
-          <li class="tool option" id="circle">
-            <img src="../icons/circle.svg" alt="">
-            <span>Círculo</span>
-          </li>
-          <li class="option">
-            <input type="checkbox" id="fill-color">
-            <label for="fill-color">Preencher cor</label>
-          </li>
-        </ul>
-      </div>
-      <div class="row">
-        <label class="title">Opções</label>
-        <ul class="tool options">
-          <li class="option active tool" id="brush">
-            <img src="../icons/brush.svg" alt="">
-            <span>Pincel</span>
-          </li>
-          <li class="tool option" id="eraser">
-            <img src="../icons/eraser.svg" alt="">
-            <span>Borracha</span>
-          </li>
-          <li class="tool option">
-            <input type="range" id="size-slider" min="1" max="30" value="5">
-          </li>
-        </ul>
-      </div>
-      <div class="row colors">
-        <label class="title">Cores</label>
-        <ul class="options">
-          <li class="option selected" style="background: #000;">
-=           <input type="color" id="color-picker" value="#000000">
-          </li>
-        </ul>
-      </div>
-      <div class="row buttons">
-        <button class="clear-canvas">Limpar canvas</button>
-        <button class="save-img">Salvar como imagem</button>
-      </div>
-    </section>
-    <section class="drawing-board">
-      <canvas></canvas>
-    </section>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paint App</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <section class="tools-board">
+        <div class="row">
+          <label class="title">Formas</label>
+          <ul class="options">
+            <li class="tool option active" id="rectangle">
+              <img src="../icons/rectangle.svg" alt="" />
+              <span>Retângulo</span>
+            </li>
+            <li class="tool option" id="triangle">
+              <img src="../icons/triangle.svg" alt="" />
+              <span>Triângulo</span>
+            </li>
+            <li class="tool option" id="circle">
+              <img src="../icons/circle.svg" alt="" />
+              <span>Círculo</span>
+            </li>
+            <li class="option">
+              <input type="checkbox" id="fill-color" />
+
+              <label for="fill-color">Preencher cor</label>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <label class="title">Opções</label>
+          <ul class="tool options">
+            <li class="option active tool" id="brush">
+              <img src="../icons/brush.svg" alt="" />
+              <span>Pincel</span>
+            </li>
+            <li class="tool option" id="eraser">
+              <img src="../icons/eraser.svg" alt="" />
+              <span>Borracha</span>
+            </li>
+            <li class="tool option">
+              <input type="range" id="size-slider" min="1" max="30" value="5" />
+            </li>
+          </ul>
+        </div>
+        <div class="row colors">
+          <label class="title">Cores</label>
+          <ul class="options">
+            <li class="option selected" style="background: #000"></li>
+            <li class="option" style="background: #fff"></li>
+            <li class="option" style="background: #ffee00"></li>
+            <li class="option" style="background: #ff0000"></li>
+            <li class="option" style="background: #1100ff"></li>
+            <li class="option">
+              <!-- <input type="color" id="color-picker" value="#000000"> -->
+              <label class="color-picker-wrapper" style="color: #ff0000">
+                <input
+                  title="color"
+                  type="color"
+                  onchange="this.parentElement.style.color = this.value"
+                />
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="row buttons">
+          <button class="clear-canvas">Limpar canvas</button>
+          <button class="save-img">Salvar como imagem</button>
+        </div>
+      </section>
+      <section class="drawing-board">
+        <canvas></canvas>
+      </section>
+    </div>
+  </body>
 </html>

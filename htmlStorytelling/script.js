@@ -1,29 +1,30 @@
 //ver sobre clicar na forma e depois na cor. Não esta dando
 
-const canvas         = document.querySelector("canvas"),
-      optionBtns       = document.querySelectorAll(".option"),
-      fillColor      = document.querySelector("#fill-color"),
-      sizeSlider     = document.querySelector("#size-slider"),
-      colorBtns      = document.querySelectorAll(".colors .option"),
-      colorPicker    = document.querySelector("#color-picker"),
-      clearCanvasBtn = document.querySelector(".clear-canvas"),
-      saveImageBtn   = document.querySelector(".save-img"),
-      ctx            = canvas.getContext("2d");
+const canvas = document.querySelector("canvas"),
+  optionBtns = document.querySelectorAll(".option"),
+  fillColor = document.querySelector("#fill-color"),
+  sizeSlider = document.querySelector("#size-slider"),
+  colorBtns = document.querySelectorAll(".colors .option"),
+  colorPicker = document.querySelector("#color-picker"),
+  clearCanvasBtn = document.querySelector(".clear-canvas"),
+  saveImageBtn = document.querySelector(".save-img"),
+  ctx = canvas.getContext("2d");
 
-let prevMouseX, prevMouseY,
-    isDrawing   = false,
-    selectedOption= "brush",
-    brushWidth  = 5,
-    selectedColor="#000",
-    snapshot;
+let prevMouseX,
+  prevMouseY,
+  isDrawing = false,
+  selectedOption = "brush",
+  brushWidth = 5,
+  selectedColor = "#000",
+  snapshot;
 
 // Ajusta tamanho do canvas (CSS vs coordenadas internas)
 function resizeCanvas() {
-  canvas.width  = canvas.offsetWidth;
+  canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
   setCanvasBackground();
 }
-window.addEventListener("load",  resizeCanvas);
+window.addEventListener("load", resizeCanvas);
 window.addEventListener("resize", resizeCanvas);
 
 // Fundo branco inicial
@@ -36,7 +37,7 @@ function setCanvasBackground() {
 // Funções de forma
 function drawRect(e) {
   const w = e.offsetX - prevMouseX,
-        h = e.offsetY - prevMouseY;
+    h = e.offsetY - prevMouseY;
   fillColor.checked
     ? ctx.fillRect(prevMouseX, prevMouseY, w, h)
     : ctx.strokeRect(prevMouseX, prevMouseY, w, h);
@@ -61,9 +62,9 @@ function startDraw(e) {
   isDrawing = true;
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
-  ctx.lineWidth   = brushWidth;
+  ctx.lineWidth = brushWidth;
   ctx.strokeStyle = selectedColor;
-  ctx.fillStyle   = selectedColor;
+  ctx.fillStyle = selectedColor;
   ctx.beginPath();
   ctx.moveTo(prevMouseX, prevMouseY);
   snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -84,14 +85,20 @@ function drawing(e) {
       ctx.strokeStyle = "#fff";
       ctx.stroke();
       break;
-    case "rectangle": drawRect(e); break;
-    case "circle":    drawCircle(e); break;
-    case "triangle":  drawTriangle(e); break;
+    case "rectangle":
+      drawRect(e);
+      break;
+    case "circle":
+      drawCircle(e);
+      break;
+    case "triangle":
+      drawTriangle(e);
+      break;
   }
 }
 
 // Seleção de ferramentas
-optionBtns.forEach(btn => {
+optionBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelector(".options .active")?.classList.remove("active");
     btn.classList.add("active");
@@ -100,10 +107,10 @@ optionBtns.forEach(btn => {
 });
 
 // Tamanho do pincel
-sizeSlider.addEventListener("input", () => brushWidth = sizeSlider.value);
+sizeSlider.addEventListener("input", () => (brushWidth = sizeSlider.value));
 
 // Seleção de cor
-colorBtns.forEach(btn => {
+colorBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelector(".colors .selected")?.classList.remove("selected");
     btn.classList.add("selected");
@@ -133,5 +140,5 @@ saveImageBtn.addEventListener("click", () => {
 // Eventos do mouse
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-canvas.addEventListener("mouseup",   () => isDrawing = false);
-canvas.addEventListener("mouseout",  () => isDrawing = false);
+canvas.addEventListener("mouseup", () => (isDrawing = false));
+canvas.addEventListener("mouseout", () => (isDrawing = false));
