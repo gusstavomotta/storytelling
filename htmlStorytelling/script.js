@@ -1,7 +1,5 @@
-//ver sobre clicar na forma e depois na cor. Não esta dando
-
 const canvas = document.querySelector("canvas"),
-  optionBtns = document.querySelectorAll(".option"),
+  toolBtns = document.querySelectorAll(".tool.option"),
   fillColor = document.querySelector("#fill-color"),
   sizeSlider = document.querySelector("#size-slider"),
   colorBtns = document.querySelectorAll(".colors .option"),
@@ -97,10 +95,10 @@ function drawing(e) {
   }
 }
 
-// Seleção de ferramentas
-optionBtns.forEach((btn) => {
+// Seleção de ferramentas/formas
+toolBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelector(".options .active")?.classList.remove("active");
+    document.querySelector(".tool.option.active")?.classList.remove("active");
     btn.classList.add("active");
     selectedOption = btn.id;
   });
@@ -109,12 +107,24 @@ optionBtns.forEach((btn) => {
 // Tamanho do pincel
 sizeSlider.addEventListener("input", () => (brushWidth = sizeSlider.value));
 
+// Converte rgb para #hex (opcional)
+function rgbToHex(rgb) {
+  const [r, g, b] = rgb.match(/\d+/g).map(Number);
+  return (
+    "#" +
+    [r, g, b]
+      .map((x) => x.toString(16).padStart(2, "0"))
+      .join("")
+  );
+}
+
 // Seleção de cor
 colorBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelector(".colors .selected")?.classList.remove("selected");
     btn.classList.add("selected");
-    selectedColor = getComputedStyle(btn).backgroundColor;
+    const bg = getComputedStyle(btn).backgroundColor;
+    selectedColor = bg.startsWith("rgb") ? rgbToHex(bg) : bg;
   });
 });
 colorPicker.addEventListener("change", () => {
