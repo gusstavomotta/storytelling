@@ -7,6 +7,9 @@ const canvas = document.querySelector("canvas"),
   clearCanvasBtn = document.querySelector(".clear-canvas"),
   saveImageBtn = document.querySelector(".save-img"),
   ctx = canvas.getContext("2d");
+  undoBtn = document.querySelector(".undo-btn");
+  redoBtn = document.querySelector(".redo-btn");
+
 
 let prevMouseX,
   prevMouseY,
@@ -15,6 +18,10 @@ let prevMouseX,
   brushWidth = 5,
   selectedColor = "#000",
   snapshot;
+
+let undoStack = [];
+let redoStack = [];
+
 
 // Ajusta tamanho do canvas (CSS vs coordenadas internas)
 function resizeCanvas() {
@@ -55,7 +62,6 @@ function drawTriangle(e) {
   fillColor.checked ? ctx.fill() : ctx.stroke();
 }
 
-// Inicia desenho
 function startDraw(e) {
   isDrawing = true;
   prevMouseX = e.offsetX;
@@ -66,7 +72,10 @@ function startDraw(e) {
   ctx.beginPath();
   ctx.moveTo(prevMouseX, prevMouseY);
   snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+  redoStack = [];
 }
+
 
 // Rascunho enquanto move
 function drawing(e) {
@@ -95,7 +104,6 @@ function drawing(e) {
   }
 }
 
-// Seleção de ferramentas/formas
 toolBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelector(".tool.option.active")?.classList.remove("active");
@@ -135,8 +143,13 @@ colorPicker.addEventListener("change", () => {
 
 // Limpar canvas
 clearCanvasBtn.addEventListener("click", () => {
+
+  undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   setCanvasBackground();
+
+  redoStack = [];
+  snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
 });
 
 // Salvar imagem
@@ -150,5 +163,32 @@ saveImageBtn.addEventListener("click", () => {
 // Eventos do mouse
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-canvas.addEventListener("mouseup", () => (isDrawing = false));
-canvas.addEventListener("mouseout", () => (isDrawing = false));
+canvas.addEventListener("mouseup", () => {
+  if (isDrawing) {
+    isDrawing = false;
+    saveState(); // Salva o estado após concluir o desenho
+  }
+});canvas.addEventListener("mouseout", () => (isDrawing = false));
+
+function undo() {
+  if (undoStack.length > 0) {
+    // Salva o estado atual na pilha de redo
+    redoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    // Restaura o último estado da pilha de undo
+    const lastState = undoStack.pop();
+    ctx.putImageData(lastState, 0, 0);
+  }
+}
+
+function redo() {
+  if (redoStack.length > 0) {
+    // Salva o estado atual na pilha de undo
+    undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    // Restaura o último estado da pilha de redo
+    const lastState = redoStack.pop();
+    ctx.putImageData(lastState, 0, 0);
+  }
+}
+undoBtn.addEventListener("click", undo);
+redoBtn.addEventListener("click", redo);
+
