@@ -81,6 +81,7 @@ function startDraw(e) {
 function drawing(e) {
   if (!isDrawing) return;
   ctx.putImageData(snapshot, 0, 0);
+
   switch (selectedOption) {
     case "brush":
       ctx.lineTo(e.offsetX, e.offsetY);
@@ -101,8 +102,17 @@ function drawing(e) {
     case "triangle":
       drawTriangle(e);
       break;
+    case "arrow":
+  ctx.strokeStyle = selectedColor;
+  ctx.fillStyle = selectedColor; // se quiser usar `fill()` depois
+  drawArrow(ctx, prevMouseX, prevMouseY, e.offsetX, e.offsetY);
+  break;
+    case "dashed-line":
+      drawDashedLine(ctx, prevMouseX, prevMouseY, e.offsetX, e.offsetY);
+      break;
   }
 }
+
 
 toolBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -192,3 +202,37 @@ function redo() {
 undoBtn.addEventListener("click", undo);
 redoBtn.addEventListener("click", redo);
 
+function drawArrow(ctx, fromX, fromY, toX, toY, headLength = 10) {
+  const dx = toX - fromX;
+  const dy = toY - fromY;
+  const angle = Math.atan2(dy, dx);
+
+  ctx.beginPath();
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(toX, toY);
+  ctx.stroke();
+
+  // Cabeça da seta (duas linhas)
+  ctx.beginPath();
+  ctx.moveTo(toX, toY);
+  ctx.lineTo(
+    toX - headLength * Math.cos(angle - Math.PI / 6),
+    toY - headLength * Math.sin(angle - Math.PI / 6)
+  );
+  ctx.lineTo(toX, toY);
+  ctx.lineTo(
+    toX - headLength * Math.cos(angle + Math.PI / 6),
+    toY - headLength * Math.sin(angle + Math.PI / 6)
+  );
+  ctx.stroke();
+}
+
+
+function drawDashedLine(ctx, fromX, fromY, toX, toY, dashPattern = [5, 5]) {
+  ctx.beginPath();
+  ctx.setLineDash(dashPattern);
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(toX, toY);
+  ctx.stroke();
+  ctx.setLineDash([]); // Restaura para linha contínua
+}
